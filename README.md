@@ -11,5 +11,5 @@ comando
 ```
 
 ```console
-Resultado
+*Resultado*
 ```
