@@ -5,10 +5,10 @@ Estudos de Kubernetes.
 
 Service -> Deployment -> ReplicaSet -> Pod
 
-``bash
+```bash
 # Comando bash
 comando
-``
+```
 
 ```console
 Resultado
