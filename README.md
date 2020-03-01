@@ -3,7 +3,7 @@
 Estudos de Kubernetes.
 
 
-Service -> Deployment -> ReplicaSet -> Pod
+Service &rarr; Deployment &rarr; ReplicaSet &rarr; Pod
 
 ```bash
 # Comando bash
