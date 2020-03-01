@@ -1,4 +1,4 @@
-# k8s_workshop
+# Workshop Kubernetes
 
 Estudos de Kubernetes.
 
