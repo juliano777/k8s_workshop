@@ -7,9 +7,9 @@ Service -> Deployment -> ReplicaSet -> Pod
 
 ```bash
 # Comando bash
-comando
+echo 'Hello, World!'
 ```
 
 <pre>
-<i>Resultado</i>
+<i>Hello, World!</i>
 </pre>
