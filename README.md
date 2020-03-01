@@ -10,6 +10,6 @@ Service -> Deployment -> ReplicaSet -> Pod
 comando
 ```
 
-```console
-*Resultado*
-```
+<pre>
+<i>Resultado</i>
+</pre>
