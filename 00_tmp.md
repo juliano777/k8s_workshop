@@ -170,3 +170,13 @@ deploy-www-7df7f685b8-fn4k7   1/1     Running   0          3m47s
 deploy-www-7df7f685b8-fx6l2   1/1     Running   0          3m47s
 deploy-www-7df7f685b8-vzhrd   1/1     Running   0          3m47s
 </i></pre>
+
+
+
+kubectl get deployments deploy-www -o yaml > www.yaml
+
+kubectl expose deployment deploy-www --type=NodePort --port=80 --name=svc-www
+
+kubectl get service svc-www 
+NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+svc-www   NodePort   10.107.44.106   <none>        80:31651/TCP   8s
