@@ -151,10 +151,22 @@ deploy-www-7df7f685b8-zq7mq   1/1     Running   0          2m
 
 
 
+```bash
+# Fazendo a escala do deployment para 5 réplicas:
+kubectl scale --replicas=5 deployment deploy-www
+```
 
-kubectl expose deployment deploy-www --name=svc-www --type=LoadBalancer --port=9000
 
 
-kubectl expose deployment deploy-www --name=svc-www --type=NodePort --port=9000
-
-kubectl expose deployment deploy-www --name=svc-www --port=80 --target-port=9000
+```bash
+# Checando pods:
+kubectl get pods
+```
+<pre><i>
+NAME                          READY   STATUS    RESTARTS   AGE
+deploy-www-7df7f685b8-56hwn   1/1     Running   0          33m
+deploy-www-7df7f685b8-fkspg   1/1     Running   0          3m47s
+deploy-www-7df7f685b8-fn4k7   1/1     Running   0          3m47s
+deploy-www-7df7f685b8-fx6l2   1/1     Running   0          3m47s
+deploy-www-7df7f685b8-vzhrd   1/1     Running   0          3m47s
+</i></pre>
