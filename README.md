@@ -10,6 +10,6 @@ Estudos de Kubernetes.
 echo 'Hello, World!'
 ```
 
-<pre>
-<i>Hello, World!</i>
-</pre>
+<pre><i>
+Hello, World!
+</i></pre>
