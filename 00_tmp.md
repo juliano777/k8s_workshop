@@ -119,7 +119,7 @@ kubectl delete pods --all
 
 ```bash
 # Criação de um deployment:
-kubectl create deployment nginx2 --image=nginx
+kubectl create deployment deploy-www --image=nginx
 ```
 
 
@@ -176,6 +176,13 @@ deploy-www-7df7f685b8-vzhrd   1/1     Running   0          3m47s
 kubectl get deployments deploy-www -o yaml > www.yaml
 
 kubectl expose deployment deploy-www --type=NodePort --port=80 --name=svc-www
+
+
+kubectl expose deployment deploy-www --type=NodePort --port=80 --name=svc-www
+
+
+kubectl expose deployment deploy-www --name=svc-www --port=80 --target-port=8080 --protocol=TCP --type=ClusterIP --labels=app=teste,setor=teste
+
 
 kubectl get service svc-www 
 NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
