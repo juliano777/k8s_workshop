@@ -203,7 +203,8 @@ Cada tipo define a acessibilidade dentro e fora do cluster.
 
 ## ClusterIP
 
-Expoe um serviço em um IP interno no cluster, que faz o serviço apenas ser alcançável apenas dentro do cluster. É o tipo de serviço padrão caso `type` não for especificado.
+Expoe um serviço em um IP interno no cluster, que faz o serviço apenas ser alcançável apenas dentro do cluster.<br />
+É o tipo de serviço padrão caso `type` não for especificado.
 
 
 ```yaml
@@ -257,3 +258,13 @@ kubectl get service svc-www
 NAME      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
 svc-www   ClusterIP   10.102.220.246   <none>        80/TCP    2m21s
 </i></pre>
+
+
+kubectl get pods
+
+
+kubectl exec -it deploy-wwww-5b7df844dd-x9lnk  curl 10.102.220.246:80
+
+
+
+## NodePort
