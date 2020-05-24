@@ -269,6 +269,11 @@ kubectl exec -it deploy-wwww-5b7df844dd-x9lnk  curl 10.102.220.246:80
 
 ## NodePort
 
+É um serviço ClusterIP com uma capacidade adicional: é alcançável pelo endereço IP do nó bem como pelo IP do cluster atribuído.
+
+
+
+
 dentro de um container curl IP do cluster:80
 
 no node curl IP externo:32144
