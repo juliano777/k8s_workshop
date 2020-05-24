@@ -241,3 +241,19 @@ spec:
   selector:
     app: nginx-app
 ```
+
+```bash
+# Aplique o arquivo YAML com o comando:
+kubectl apply -f <arquivo YAML>
+```
+
+
+```bash
+# Verifique o serviço:
+kubectl get service svc-www
+```
+
+<pre><i>
+NAME      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+svc-www   ClusterIP   10.102.220.246   <none>        80/TCP    2m21s
+</i></pre>
