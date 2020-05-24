@@ -192,8 +192,8 @@ svc-www   NodePort   10.107.44.106   <none>        80:31651/TCP   8s
 
 # Tipos de Serviços
 
-Um serviço Kubernetes é uma abstração que define um conjunto lógico de pods e uma política de acesso.\
-Serviços podem ser expostos de maneiras diferentes especificando o tipo (`type`) na especificação (`spec`) do serviço.\
+Um serviço Kubernetes é uma abstração que define um conjunto lógico de pods e uma política de acesso.<br />
+Serviços podem ser expostos de maneiras diferentes especificando o tipo (`type`) na especificação (`spec`) do serviço.<br />
 Cada tipo define a acessibilidade dentro e fora do cluster.
 
 - ClusterIP;
