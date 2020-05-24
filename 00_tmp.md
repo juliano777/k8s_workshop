@@ -268,3 +268,7 @@ kubectl exec -it deploy-wwww-5b7df844dd-x9lnk  curl 10.102.220.246:80
 
 
 ## NodePort
+
+curl IP do cluster:80
+
+curl IP externo:32144
