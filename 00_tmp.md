@@ -199,3 +199,45 @@ svc-www   NodePort   10.107.44.106   <none>        80:31651/TCP   8s
 - ClusterIP;
 - NodePort;
 - LoadBalancer.
+
+
+## ClusterIP
+
+Expoe um serviço em um IP interno no cluster, que faz o serviço apenas ser alcançável apenas dentro do cluster. É o tipo de serviço padrão caso `type` não for especificado.
+
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-wwww
+spec:
+  selector:
+    matchLabels:
+      app: nginx-app
+  replicas: 10
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-app
+  name: svc-www
+  namespace: default
+spec:
+  type: ClusterIP  # Definição do tipo de service
+  ports:
+    - port: 80
+  selector:
+    app: nginx-app
+```
