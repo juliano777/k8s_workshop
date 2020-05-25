@@ -325,7 +325,69 @@ svc-www   NodePort   10.99.152.115   <none>        80:30430/TCP   1m01s
 </i></pre>
 
 * IP do Cluster: 10.99.152.115
-* Porta do nó (NodePort): 30430 
+* Porta do nó (NodePort): 30430
+
+Podemos também definir NodePort.
+
+
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-wwww
+spec:
+  selector:
+    matchLabels:
+      app: nginx-app
+  replicas: 10
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-app
+  name: svc-www
+  namespace: default
+spec:
+  type: NodePort  # Definição do tipo de service
+  ports:
+    - port: 80
+      nodePort: 30777  # NodePort
+      protocol: TCP
+  selector:
+    app: nginx-app
+```
+
+```bash
+# Aplique o arquivo YAML com o comando:
+kubectl apply -f <arquivo YAML>
+```
+
+
+
+```bash
+# Verificando informações do service:
+kubectl get service svc-www
+```
+<pre><i>
+NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+svc-www   NodePort   10.99.152.115   <none>        80:30777/TCP   16h
+</i></pre>
+
+* IP do Cluster: 10.99.152.115
+* Porta do nó (NodePort): 30777
+
 
 
 
