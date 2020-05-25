@@ -390,8 +390,68 @@ svc-www   NodePort   10.99.152.115   <none>        80:30777/TCP   16h
 
 
 
-
-
-
 ## LoadBalancer
-NodePort=X
+
+É a abordagem mais simples de serviço, combina as habilidades de um serviço NodePort com a habilidade de configurar um ingress path completo.
+Portanto o serviço pode ser acessado externamente ao cluster sem a necessidade de componentes adicionais como um ingress.<br />
+
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-wwww
+spec:
+  selector:
+    matchLabels:
+      app: nginx-app
+  replicas: 10
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-app
+  name: svc-www
+  namespace: default
+spec:
+  type: LoadBalancer  # Definição do tipo de service
+  ports:
+    - port: 80
+      nodePort: 30080  # NodePort
+      protocol: TCP
+  selector:
+    app: nginx-app
+```
+
+```bash
+# Aplique o arquivo YAML com o comando:
+kubectl apply -f <arquivo YAML>
+```
+
+
+
+```bash
+# Verificando informações do service:
+kubectl get service svc-www
+```
+<pre><i>
+NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+svc-www   NodePort   10.99.152.115   <none>        80:30777/TCP   16h
+</i></pre>
+
+* IP do Cluster: 10.99.152.115
+* Porta do nó (NodePort): 30777
+
+<!-- https://gardener.cloud/050-tutorials/content/howto/service-access/ >
+<!-- https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0 >
