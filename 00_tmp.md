@@ -269,16 +269,65 @@ kubectl exec -it deploy-wwww-5b7df844dd-x9lnk  curl 10.102.220.246:80
 
 ## NodePort
 
-É um serviço ClusterIP com uma capacidade adicional: é alcançável pelo endereço IP do nó bem como pelo IP do cluster atribuído.
+É um serviço ClusterIP com uma capacidade adicional: é alcançável pelo endereço IP do nó bem como pelo IP do cluster atribuído.<br />
+A maneira como isso é feita e bem direta, pois, quando o Kubernetes cria um serviço NodePort, aloca uma porta na faixa entre 30000 a 32767
+e abre essa porta em todos os nós (por isso o nome NodePort). Conexões a essa porta são redirecionadas para o IP do cluster.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-wwww
+spec:
+  selector:
+    matchLabels:
+      app: nginx-app
+  replicas: 10
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-app
+  name: svc-www
+  namespace: default
+spec:
+  type: NodePort  # Definição do tipo de service
+  ports:
+    - port: 80
+  selector:
+    app: nginx-app
+```
+
+```bash
+# Aplique o arquivo YAML com o comando:
+kubectl apply -f <arquivo YAML>
+```
 
 
+```bash
+# Verificando informações do service:
+kubectl get service svc-www
+```
+<pre><i>
+NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+svc-www   NodePort   10.99.152.115   <none>        80:30430/TCP   1m01s
+</i></pre>
+
+* IP do Cluster: 10.99.152.115
+* Porta do nó (NodePort): 30430 
 
 
-dentro de um container curl IP do cluster:80
-
-no node curl IP externo:32144
-
-NodePort=32144
 
 
 
