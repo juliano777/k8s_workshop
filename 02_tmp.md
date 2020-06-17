@@ -44,7 +44,7 @@ kubectl get pods -o wide | fgrep k8s-02 | wc -l
 
 
 
-# Remove  o taint
+# Remove o taint
 kubectl taint node k8s-03.local key1:NoSchedule-
 
 
