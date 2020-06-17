@@ -111,5 +111,18 @@ kubectl apply -f deploy_02.yaml
 
 
 
+```bash
+# Listando deployments:
+kubectl get deployments
+```
+
+<pre><i>
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+deploy01   1/1     1            1           7m23s
+deploy02   1/1     1            1           60s
+</i></pre>
+
+
+
 
 
