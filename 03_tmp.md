@@ -32,7 +32,7 @@ spec:
     metadata:
       labels:
         run: nginx
-        dc: UK
+        color: Green
     spec:
       containers:
       - image: nginx
@@ -49,6 +49,13 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
+```
+
+
+
+# Aplicando o YAML:
+```bash
+kubectl apply -f deploy_01.yaml
 ```
 
 
