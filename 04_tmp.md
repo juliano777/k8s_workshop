@@ -158,10 +158,8 @@ spec:
       run: nginx
   template:
     metadata:
-      creationTimestamp: null
       labels:
         run: nginx
-        dc: Netherlands
     spec:
       containers:
       - image: nginx
