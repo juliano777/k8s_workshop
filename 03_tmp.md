@@ -15,7 +15,7 @@ vim deploy_01.yaml
 
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -56,6 +56,57 @@ spec:
 ```bash
 # Aplicando o YAML:
 kubectl apply -f deploy_01.yaml
+```
+
+
+
+```bash
+# Criação do YAML do segundo deployment:
+vim deploy_02.yaml
+```
+
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: nginx
+  name: deploy02
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: nginx
+  template:
+    metadata:
+      labels:
+        run: nginx
+        color: Orange
+    spec:
+      containers:
+      - image: nginx
+        imagePullPolicy: Always
+        name: nginx2
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+```
+
+
+
+```bash
+# Aplicando o YAML:
+kubectl apply -f deploy_02.yaml
 ```
 
 
