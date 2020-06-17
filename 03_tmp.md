@@ -8,8 +8,8 @@ Um Deployment pode ser definido para criar novos ReplicaSets ou remover Deployme
 
 
 
-# Criação do YAML do deployment:
 ```bash
+# Criação do YAML do deployment:
 vim deploy_01.yaml
 ```
 
@@ -53,8 +53,8 @@ spec:
 
 
 
-# Aplicando o YAML:
 ```bash
+# Aplicando o YAML:
 kubectl apply -f deploy_01.yaml
 ```
 
