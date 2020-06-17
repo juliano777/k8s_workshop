@@ -33,3 +33,49 @@ NAME                        READY   STATUS    RESTARTS   AGE   COLOR
 deploy01-5fd6dcb8d8-tkvq9   1/1     Running   0          25m   Green
 deploy02-5dc8f99fdf-s6p8s   1/1     Running   0          19m   Orange
 </i></pre>
+
+
+
+
+```bash
+# Adicionando uma label no nó:
+kubectl label node k8s-02.local foo=bar
+```
+
+
+
+```bash
+# Listando as labels do nó:
+kubectl label nodes k8s-02.local --list
+```
+
+<pre><i>
+foo=bar
+kubernetes.io/arch=amd64
+kubernetes.io/hostname=k8s-02.local
+kubernetes.io/os=linux
+beta.kubernetes.io/arch=amd64
+beta.kubernetes.io/os=linux
+</i></pre>
+
+
+
+```bash
+# Removendo a label do nó:
+kubectl label node k8s-02.local foo-
+```
+
+
+
+```bash
+# Listando as labels do nó:
+kubectl label nodes k8s-02.local --list
+```
+
+<pre><i>
+beta.kubernetes.io/os=linux
+kubernetes.io/arch=amd64
+kubernetes.io/hostname=k8s-02.local
+kubernetes.io/os=linux
+beta.kubernetes.io/arch=amd64
+</i></pre>
