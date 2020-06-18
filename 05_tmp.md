@@ -142,9 +142,9 @@ Após os pods terminarem desaparecem, pois sem seu controlador devem deixar de e
 
 
 
-```bash
-# :
-```
+## Alterações: Deployments vs ReplicaSets
+
+
 
 ```bash
 # Criando um novo YAML de deployment:
@@ -185,27 +185,49 @@ spec:
 
 
 
+```bash
+# Aplicando o YAML de deployment:
+kubectl apply -f deploy_04.yaml
+```
+
+
+
+```bash
+# Listando os pods criados:
 kubectl get pods -l color=Silver
+```
+
+<pre><i>
 NAME                        READY   STATUS    RESTARTS   AGE
 deploy04-8574f6b454-797np   1/1     Running   0          109s
 deploy04-8574f6b454-84qpn   1/1     Running   0          109s
 deploy04-8574f6b454-pwt4t   1/1     Running   0          109s
+</i></pre>
 
 
 
+```bash
+# Pela descrição de um dos pods, verificando a imagem utilizada:
 kubectl describe pod deploy04-8574f6b454-797np | fgrep image
+```
+
+<pre><i>
   Normal  Pulling    2m29s      kubelet, k8s-03.local  Pulling image "nginx:alpine"
   Normal  Pulled     2m6s       kubelet, k8s-03.local  Successfully pulled image "nginx:alpine"
+</i></pre>
 
 
 
+```bash
 # Edite o deployment mudando a tag da imagem de "alpine" para "latest":
 kubectl edit deploy deploy04
+```
 
 
-
+```bash
 # Espere algum tempo e verifique se tem apenas 3 instâncias rodando:
 kubectl get pods -l color=Silver
+```
 
 NAME                        READY   STATUS    RESTARTS   AGE
 deploy04-67579fc878-dzrcf   1/1     Running   0          28s
