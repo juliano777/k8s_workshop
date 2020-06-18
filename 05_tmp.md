@@ -229,19 +229,24 @@ kubectl edit deploy deploy04
 kubectl get pods -l color=Silver
 ```
 
+<pre><i>
 NAME                        READY   STATUS    RESTARTS   AGE
 deploy04-67579fc878-dzrcf   1/1     Running   0          28s
 deploy04-67579fc878-pfkjl   1/1     Running   0          22s
 deploy04-67579fc878-zzw42   1/1     Running   0          17s
+</i></pre>
 
 
 
+```bash
 # Vamos verificar a imagem que está nos pods tomando um como exemplo:
-
 kubectl describe pod deploy04-67579fc878-dzrcf | fgrep image
+```
 
+<pre><i>
   Normal  Pulling    3m18s      kubelet, k8s-02.local  Pulling image "nginx:latest"
   Normal  Pulled     3m14s      kubelet, k8s-02.local  Successfully pulled image "nginx:latest"
+</i></pre>
 
 Podemos notar que ao editar o deployment, os pods antigos foram encerrados e novos foram criados de acordo com as mudanças.
 
