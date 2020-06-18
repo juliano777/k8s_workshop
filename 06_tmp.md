@@ -1,6 +1,21 @@
-# 
+# DaemonSet
 
-# vim primeiro-daemonset.yaml
+A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster, Pods are added to them. As nodes are removed from the cluster, those Pods are garbage collected. Deleting a DaemonSet will clean up the Pods it created.
+
+Some typical uses of a DaemonSet are:
+
+    running a cluster storage daemon on every node
+    running a logs collection daemon on every node
+    running a node monitoring daemon on every node
+
+In a simple case, one DaemonSet, covering all nodes, would be used for each type of daemon. A more complex setup might use multiple DaemonSets for a single type of daemon, but with different flags and/or different memory and cpu requests for different hardware types.
+
+```bash
+#
+vim primeiro-daemonset.yaml
+```
+
+```yaml
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
@@ -16,19 +31,50 @@ spec:
         image: nginx:1.7.9
         ports:
         - containerPort: 80
+```
 
-# kubectl taint nodes --all node-role.kubernetes.io/master-
 
-# kubectl create -f  primeiro-daemonset.yaml
+```bash
+#
 
-# kubectl get daemonset
+```
 
-# kubectl describe ds daemon-set-primeiro
+```bash
+#
+kubectl taint nodes --all node-role.kubernetes.io/master-
+```
 
-# kubectl get pods -o wide
+```bash
+#
+kubectl create -f  primeiro-daemonset.yaml
+```
 
-# kubectl set image ds daemon-set-primeiro nginx=nginx:1.15.0
+```bash
+#
+kubectl get daemonset
+```
 
-# kubectl describe ds daemon-set-primeiro
+```bash
+#
+kubectl describe ds daemon-set-primeiro
+```
 
-# kubectl delete pod daemon-set-primeiro-jh2sp
+```bash
+#
+kubectl get pods -o wide
+```
+
+```bash
+#
+kubectl set image ds daemon-set-primeiro nginx=nginx:1.15.0
+```
+
+```bash
+#
+kubectl describe ds daemon-set-primeiro
+```
+
+```bash
+#
+kubectl delete pod daemon-set-primeiro-jh2sp
+```
