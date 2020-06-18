@@ -16,7 +16,7 @@ REVISION  CHANGE-CAUSE
 
 
 ```bash
-#
+# Detalhes da revisão 1:
 kubectl rollout history ds ds01 --revision=1
 ```
 
@@ -34,8 +34,10 @@ Pod Template:
   Volumes:	<none>
 </i></pre>
 
+
+
 ```bash
-#
+# Detalhes da revisão 2:
 kubectl rollout history ds ds01 --revision=2
 ```
 
@@ -53,8 +55,10 @@ Pod Template:
   Volumes:	<none>
 </i></pre>
 
+
+
 ```bash
-#
+# Voltando para a revisão 1:
 kubectl rollout undo ds ds01 --to-revision=1
 ```
 
@@ -97,7 +101,7 @@ spec:
 
 ```bash
 #
-kubectl create -f ds_01.yaml
+kubectl apply -f ds_01.yaml
 ```
 
 ```bash
