@@ -88,7 +88,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.7.9
+        image: nginx:alpine
         ports:
         - containerPort: 80
   updateStrategy:
@@ -117,7 +117,7 @@ kubectl get ds ds01 -o yaml | grep -A 2 Strategy
 
 ```bash
 #
-kubectl set image ds ds01 nginx=nginx:1.15.0
+kubectl set image ds ds01 nginx=nginx:latest
 ```
 
 ```bash
