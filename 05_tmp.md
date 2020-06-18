@@ -253,7 +253,7 @@ Podemos notar que ao editar o deployment, os pods antigos foram encerrados e nov
 
 
 ```bash
-# Vamos recriar somente o ReplicaSet rs01:
+# Recriação do ReplicaSet rs01:
 kubectl apply -f rs_01.yaml
 ```
 
@@ -321,5 +321,3 @@ awk '{print $1}' | xargs -i kubectl describe pod {} | fgrep image
 
 Podemos concluir que ao criarmos um ReplicaSet e o alteramos, tais alterações só terão efeito após "matarmos" seus pods.
 Com um deployment é diferente, pois após houver uma alteração, todos os pods são renovados conforme.
-
-
