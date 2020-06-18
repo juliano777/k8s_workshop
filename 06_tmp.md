@@ -16,28 +16,24 @@ vim primeiro-daemonset.yaml
 ```
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: daemon-set-primeiro
+  name: ds01
 spec:
   template:
     metadata:
       labels:
-        system: Strigus
+        system: HeavyMetal
     spec:
       containers:
-      - name: nginx
-        image: nginx:1.7.9
+      - name: www
+        image: nginx:alpine
         ports:
         - containerPort: 80
 ```
 
 
-```bash
-#
-
-```
 
 ```bash
 #
@@ -56,7 +52,7 @@ kubectl get daemonset
 
 ```bash
 #
-kubectl describe ds daemon-set-primeiro
+kubectl describe ds ds01
 ```
 
 ```bash
@@ -66,15 +62,15 @@ kubectl get pods -o wide
 
 ```bash
 #
-kubectl set image ds daemon-set-primeiro nginx=nginx:1.15.0
+kubectl set image ds ds01 nginx=nginx:latest
 ```
 
 ```bash
 #
-kubectl describe ds daemon-set-primeiro
+kubectl describe ds ds01
 ```
 
 ```bash
 #
-kubectl delete pod daemon-set-primeiro-jh2sp
+kubectl delete pod ds01-jh2sp
 ```
