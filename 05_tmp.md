@@ -252,55 +252,72 @@ Podemos notar que ao editar o deployment, os pods antigos foram encerrados e nov
 
 
 
+```bash
 # Vamos recriar somente o ReplicaSet rs01:
 kubectl apply -f rs_01.yaml
+```
 
 
-
+```bash
 # Vamos listar seus pods:
 kubectl get pods -l color=Black
+```
 
+<pre><i>
 NAME         READY   STATUS    RESTARTS   AGE
 rs01-6qmvv   1/1     Running   0          29s
 rs01-bcb8t   1/1     Running   0          29s
 rs01-cnpvr   1/1     Running   0          29s
 rs01-k2v2c   1/1     Running   0          29s
 rs01-rdff2   1/1     Running   0          29s
+</i></pre>
 
 
-
+```bash
 # Vamos verificar a imagem usada:
 kubectl describe pod rs01-6qmvv | fgrep image
+```
 
+<pre><i>
   Normal  Pulling    87s        kubelet, k8s-03.local  Pulling image "nginx"
   Normal  Pulled     84s        kubelet, k8s-03.local  Successfully pulled image "nginx"
+</i></pre>
 
 
-
+```bash
 # Mude a imagem do ReplicaSet para a tag "alpine"
 # (image: nginx:alpine):
 kubectl edit rs rs01
+```
 
 Não houve qualquer alteração...
 
 
+```bash
 # Apague um pod:
 kubectl get pods -l color=Black | fgrep rs01 | awk '{print $1}' | \
 head -1 | xargs -i kubectl delete pod {}
+```
 
 
 
+```bash
 # Liste novamente:
 kubectl get pods -l color=Black
+```
 
 
 
+```bash
 # Dê um describe no pod mais novo e verifique a imagem:
 kubectl get pods -l color=Black | fgrep Running | tail -1 | \
 awk '{print $1}' | xargs -i kubectl describe pod {} | fgrep image
+```
 
+<pre><i>
   Normal  Pulling    91s        kubelet, k8s-02.local  Pulling image "nginx:alpine"
   Normal  Pulled     84s        kubelet, k8s-02.local  Successfully pulled image "nginx:alpine"
+</i></pre>
 
 Podemos concluir que ao criarmos um ReplicaSet e o alteramos, tais alterações só terão efeito após "matarmos" seus pods.
 Com um deployment é diferente, pois após houver uma alteração, todos os pods são renovados conforme.
