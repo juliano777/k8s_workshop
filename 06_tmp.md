@@ -12,7 +12,7 @@ In a simple case, one DaemonSet, covering all nodes, would be used for each type
 
 ```bash
 #
-vim primeiro-daemonset.yaml
+vim ds_01.yaml
 ```
 
 ```yaml
@@ -42,7 +42,7 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 
 ```bash
 #
-kubectl create -f  primeiro-daemonset.yaml
+kubectl create -f  ds_01.yaml
 ```
 
 ```bash

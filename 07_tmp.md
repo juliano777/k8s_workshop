@@ -3,50 +3,50 @@
 
 ```bash
 #
-kubectl rollout history ds daemon-set-primeiro
+kubectl rollout history ds ds01
 ```
 
 ```bash
 #
-kubectl rollout history ds daemon-set-primeiro --revision=1
+kubectl rollout history ds ds01 --revision=1
 ```
 
 ```bash
 #
-kubectl rollout history ds daemon-set-primeiro --revision=2
+kubectl rollout history ds ds01 --revision=2
 ```
 
 ```bash
 #
-kubectl rollout undo ds daemon-set-primeiro --to-revision=1
+kubectl rollout undo ds ds01 --to-revision=1
 ```
 
 ```bash
 #
-kubectl rollout status ds daemon-set-primeiro
+kubectl rollout status ds ds01
 ```
 
 ```bash
 #
-kubectl describe daemon-set-primeiro-hp4qc | fgrep -i image
+kubectl describe ds01-hp4qc | fgrep -i image
 ```
 
 ```bash
 #
-kubectl delete -f primeiro-daemonset.yaml
+kubectl delete -f ds_01.yaml
 ```
 
 
 ```bash
 #
-vim primeiro-daemonset.yaml
+vim ds_01.yaml
 ```
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: daemon-set-primeiro
+  name: ds01
 spec:
   template:
     metadata:
@@ -64,7 +64,7 @@ spec:
 
 ```bash
 #
-kubectl create -f primeiro-daemonset.yaml
+kubectl create -f ds_01.yaml
 ```
 
 ```bash
@@ -74,17 +74,17 @@ kubectl get daemonset
 
 ```bash
 #
-kubectl describe ds daemon-set-primeiro
+kubectl describe ds ds01
 ```
 
 ```bash
 #
-kubectl get ds daemon-set-primeiro -o yaml | grep -A 2 Strategy
+kubectl get ds ds01 -o yaml | grep -A 2 Strategy
 ```
 
 ```bash
 #
-kubectl set image ds daemon-set-primeiro nginx=nginx:1.15.0
+kubectl set image ds ds01 nginx=nginx:1.15.0
 ```
 
 ```bash
@@ -99,35 +99,35 @@ kubectl get pods -o wide
 
 ```bash
 #
-kubectl describe ds daemon-set-primeiro
+kubectl describe ds ds01
 ```
 
 ```bash
 #
-kubectl rollout history ds daemon-set-primeiro
+kubectl rollout history ds ds01
 ```
 
 ```bash
 #
-kubectl rollout history ds daemon-set-primeiro --revision=1
+kubectl rollout history ds ds01 --revision=1
 ```
 
 ```bash
 #
-kubectl rollout history ds daemon-set-primeiro --revision=2
+kubectl rollout history ds ds01 --revision=2
 ```
 
 ```bash
 #
-kubectl rollout undo ds daemon-set-primeiro --to-revision=1
+kubectl rollout undo ds ds01 --to-revision=1
 ```
 
 ```bash
 #
-kubectl rollout status ds daemon-set-primeiro
+kubectl rollout status ds ds01
 ```
 
 ```bash
 #
-kubectl delete ds daemon-set-primeiro
+kubectl delete ds ds01
 ```
