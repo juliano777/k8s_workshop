@@ -1,4 +1,4 @@
-# 
+# kubectl rollout e updateStrategy
 
 
 ```bash
