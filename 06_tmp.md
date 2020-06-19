@@ -40,6 +40,11 @@ spec:
         image: nginx:alpine
         ports:
         - containerPort: 80
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  
 ```
 
 

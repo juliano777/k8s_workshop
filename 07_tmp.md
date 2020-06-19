@@ -62,20 +62,27 @@ Pod Template:
 kubectl rollout undo ds ds01 --to-revision=1
 ```
 
+
+
 ```bash
-#
+# Verificando o status do rollout:
 kubectl rollout status ds ds01
 ```
 
+<pre><i>
+daemon set "ds01" successfully rolled out
+</i></pre>
+
+
 
 ```bash
-#
+# Removendo o DaemonSet pelo YAML:
 kubectl delete -f ds_01.yaml
 ```
 
 
 ```bash
-#
+# Novo conteúdo para o DaemonSet que será recriado:
 vim ds_01.yaml
 ```
 
@@ -85,86 +92,48 @@ kind: DaemonSet
 metadata:
   name: ds01
 spec:
+  selector:
+    matchLabels:
+      system: HeavyMetal
   template:
     metadata:
       labels:
-        system: DaemonOne
+        system: HeavyMetal
     spec:
       containers:
-      - name: nginx
+      - name: www
         image: nginx:alpine
         ports:
         - containerPort: 80
   updateStrategy:
-    type: RollingUpdate
+    type: OnDelete
 ```
 
 ```bash
-#
+# Aplicando o YAML:
 kubectl apply -f ds_01.yaml
 ```
 
 ```bash
-#
-kubectl get daemonset
+# Listar os pods rodando:
+kubectl get pods -l system=HeavyMetal
 ```
 
-```bash
-#
-kubectl describe ds ds01
-```
+<pre><i>
+NAME         READY   STATUS    RESTARTS   AGE
+ds01-lnjzh   1/1     Running   0          23s
+ds01-xmtvr   1/1     Running   0          23s
+</i></pre>
+
+
 
 ```bash
-#
-kubectl get ds ds01 -o yaml | grep -A 2 Strategy
+# Verificando a estratégia de update (updateStrategy):
+kubectl get ds ds01 -o yaml | fgrep -A 2 ' updateStrategy' | fgrep type
 ```
 
-```bash
-#
-kubectl set image ds ds01 nginx=nginx:latest
-```
+<pre><i>
+    type: OnDelete
+</i></pre>
 
-```bash
-#
-kubectl get daemonset
-```
-
-```bash
-#
-kubectl get pods -o wide
-```
-
-```bash
-#
-kubectl describe ds ds01
-```
-
-```bash
-#
-kubectl rollout history ds ds01
-```
-
-```bash
-#
-kubectl rollout history ds ds01 --revision=1
-```
-
-```bash
-#
-kubectl rollout history ds ds01 --revision=2
-```
-
-```bash
-#
-kubectl rollout undo ds ds01 --to-revision=1
-```
-
-```bash
-#
-kubectl rollout status ds ds01
-```
-
-```bash
-#
-kubectl delete ds ds01
-```
+Isso significa que para aplicar qualquer atualização é preciso que cada pod seja apagado para então os que forem criados no lugar estejam com as atualizações.
