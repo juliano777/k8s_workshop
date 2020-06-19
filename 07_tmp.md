@@ -137,3 +137,163 @@ kubectl get ds ds01 -o yaml | fgrep -A 2 ' updateStrategy' | fgrep type
 </i></pre>
 
 Isso significa que para aplicar qualquer atualização é preciso que cada pod seja apagado para então os que forem criados no lugar estejam com as atualizações.
+
+
+
+```bash
+# Mudano a imagem do DaemonSet via linha de comando:
+kubectl set image ds ds01 www=nginx:latest
+```
+
+
+
+```bash
+# Listar os pods rodando:
+kubectl get pods -l system=HeavyMetal
+```
+
+<pre><i>
+NAME         READY   STATUS    RESTARTS   AGE
+ds01-lnjzh   1/1     Running   0          23s
+ds01-xmtvr   1/1     Running   0          23s
+</i></pre>
+
+São os mesmos pods rodando ainda...
+
+
+
+```bash
+# Remover o primeiro pod:
+kubectl get pods -l system=HeavyMetal | fgrep Running | \
+awk '{print $1}' | head -1 | xargs -i kubectl delete pod {}
+```
+
+<pre><i>
+pod "ds01-lnjzh" deleted
+</i></pre>
+
+
+
+```bash
+# Listar os pods rodando:
+kubectl get pods -l system=HeavyMetal
+```
+
+<pre><i>
+NAME         READY   STATUS    RESTARTS   AGE
+ds01-qjstx   1/1     Running   0          99s
+ds01-xmtvr   1/1     Running   0          26m
+</i></pre>
+
+O primeiro pod mudou...
+
+
+
+```bash
+# Verificando a imagem do primeiro pod:
+kubectl describe pod ds01-qjstx | fgrep 'Image:'
+```
+
+<pre><i>
+    Image:          nginx:latest
+</i></pre>
+
+Esse pod foi o que entrou no lugar do que foi removido, a alteração feita no DaemonSet já consta nele.
+
+
+
+```bash
+# Verificando a imagem do segundo pod:
+kubectl describe pod ds01-xmtvr | fgrep 'Image:'
+```
+
+<pre><i>
+    Image:          nginx:alpine
+</i></pre>
+
+Aqui vemos no pod pré existente que a imagem original continua.
+
+
+
+
+```bash
+# Agora vamos mudar o YAML com updateStrategy do tipo RollingUpdate:
+vim ds_01.yaml
+```
+
+```yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds01
+spec:
+  selector:
+    matchLabels:
+      system: HeavyMetal
+  template:
+    metadata:
+      labels:
+        system: HeavyMetal
+    spec:
+      containers:
+      - name: www
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+```
+
+
+
+```bash
+# Aplicar o YAML:
+kubectl apply -f ds_01.yaml
+```
+
+
+
+```bash
+# Verificando a estratégia de update (updateStrategy):
+kubectl get ds ds01 -o yaml | fgrep -A 3 ' updateStrategy' | fgrep type
+```
+
+<pre><i>
+    type: RollingUpdate
+</i></pre>
+
+
+
+```bash
+# Listar os pods rodando:
+kubectl get pods -l system=HeavyMetal
+```
+
+<pre><i>
+NAME         READY   STATUS    RESTARTS   AGE
+ds01-2tp58   1/1     Running   0          27s
+ds01-lkcsh   1/1     Running   0          27s
+</i></pre>
+
+
+
+```bash
+# Mudano a imagem do DaemonSet via linha de comando:
+kubectl set image ds ds01 www=nginx:latest
+```
+
+
+```bash
+# Após algum tempo, listar os pods rodando após a mudança:
+kubectl get pods -l system=HeavyMetal
+```
+
+<pre><i>
+NAME         READY   STATUS    RESTARTS   AGE
+ds01-jnvkz   1/1     Running   0          12s
+ds01-zqz9x   1/1     Running   0          4s
+</i></pre>
+
+Com updateStrategy RollingUpdate a mudança foi aplicada imediatamente, fazendo com que os pods fossem renovados conforme.
