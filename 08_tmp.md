@@ -105,23 +105,7 @@ vim emptydir02.yaml
 ```
 
 ```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: emptydir02
-  labels:
-    app: EMPTYDIR
-spec:
-  containers:
-  - image: nginx
-    name: emptydir02
-    volumeMounts:
-    - mountPath: /foo
-      name: foo-volume
-  volumes:
-  - name: foo-volume
-    emptyDir:
-      medium: Memory
+ 
 ```
 
 
@@ -134,11 +118,28 @@ kubectl apply -f emptydir02.yaml
 
 
 ```bash
-# 
-kubectl get pods -l app=EMPTYDIR
+# Descubra em qual node está rodando o pod:
+kubectl get pods -l app=EMPTYDIR -o wide
 ```
 
 <pre><i>
-NAME         READY   STATUS    RESTARTS   AGE
-emptydir02   1/1     Running   0          15s
+NAME         READY   STATUS    RESTARTS   AGE   IP              NODE           NOMINATED NODE   READINESS GATES
+emptydir02   1/1     Running   0          10m   11.36.224.204   k8s-03.local   <none>           <none>
 </i></pre>
+
+
+
+```bash
+# No node onde está rodando o pod veja o volume montado:
+df -h | fgrep 'foo-volume'
+```
+
+<pre><i>
+tmpfs           984M     0  984M   0% /var/lib/kubelet/pods/3d0d39e0-ca77-4149-bb23-6e8617e5f9b2/volumes/kubernetes.io~empty-dir/foo-volume
+</i></pre>
+
+
+
+## PersistentVolume
+
+## PersistentVolumeClaim
