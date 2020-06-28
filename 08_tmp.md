@@ -43,6 +43,7 @@ spec:
   volumes:
   - name: foo-volume
     emptyDir: {}
+    
 ```
 
 
@@ -51,3 +52,93 @@ spec:
 # 
 kubectl apply -f emptydir01.yaml
 ```
+
+
+
+```bash
+#
+kubectl get pods -l app=EMPTYDIR
+```
+
+<pre><i>
+NAME         READY   STATUS    RESTARTS   AGE
+emptydir01   1/1     Running   1          18h
+</i></pre>
+
+
+
+
+```bash
+#
+kubectl exec -it emptydir01 -- ls -lhd /foo
+```
+
+<pre><i>
+drwxrwxrwx 2 root root 6 Jun 27 17:33 /foo
+</i></pre>
+
+
+
+```bash
+#
+kubectl describe pod emptydir01 | fgrep -A2 Volume
+```
+
+<pre><i>
+Volumes:
+  foo-volume:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+</i></pre>
+
+
+
+```bash
+#
+kubectl delete -f emptydir01.yaml
+```
+
+
+
+```bash
+# 
+vim emptydir02.yaml
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: emptydir02
+  labels:
+    app: EMPTYDIR
+spec:
+  containers:
+  - image: nginx
+    name: emptydir02
+    volumeMounts:
+    - mountPath: /foo
+      name: foo-volume
+  volumes:
+  - name: foo-volume
+    emptyDir:
+      medium: Memory
+```
+
+
+
+```bash
+# 
+kubectl apply -f emptydir02.yaml
+```
+
+
+
+```bash
+# 
+kubectl get pods -l app=EMPTYDIR
+```
+
+<pre><i>
+NAME         READY   STATUS    RESTARTS   AGE
+emptydir02   1/1     Running   0          15s
+</i></pre>
