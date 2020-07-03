@@ -32,18 +32,33 @@ kind: Pod
 metadata:
   name: emptydir01
   labels:
-    app: EMPTYDIR
+    app: EMPTYDIR  
 spec:
-  containers:
-  - image: nginx
-    name: emptydir01
-    volumeMounts:
-    - mountPath: /foo
-      name: foo-volume
   volumes:
-  - name: foo-volume
+  - name: html
     emptyDir: {}
-    
+  - name: tmp
+    emptyDir:
+      medium: Memory
+      sizeLimit: 256M 
+  containers:
+  - name: www
+    image: nginx
+    volumeMounts:
+    - name: html
+      mountPath: /usr/share/nginx/html
+    - name: tmp
+      mountPath: /tmp
+  - name: test
+    image: alpine
+    volumeMounts:
+    - name: tmp
+      mountPath: /tmp    
+    command: ["/bin/sh", "-c"]
+    args:
+      - while true; do
+          sleep 1;
+        done
 ```
 
 
@@ -62,7 +77,7 @@ kubectl get pods -l app=EMPTYDIR
 
 <pre><i>
 NAME         READY   STATUS    RESTARTS   AGE
-emptydir01   1/1     Running   1          18h
+emptydir01   2/2     Running   0          5m56s
 </i></pre>
 
 
@@ -70,11 +85,22 @@ emptydir01   1/1     Running   1          18h
 
 ```bash
 #
-kubectl exec -it emptydir01 -- ls -lhd /foo
+kubectl exec -it emptydir01 -c www -- cat /etc/os-release | egrep '^NAME='
 ```
 
 <pre><i>
-drwxrwxrwx 2 root root 6 Jun 27 17:33 /foo
+NAME="Debian GNU/Linux"
+</i></pre>
+
+
+
+```bash
+#
+kubectl exec -it emptydir01 -c test -- cat /etc/os-release | egrep '^NAME='
+```
+
+<pre><i>
+NAME="Alpine Linux"
 </i></pre>
 
 
