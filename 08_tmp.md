@@ -193,11 +193,13 @@ kind: PersistentVolume
 metadata:
   name: pv01
 spec:
+  capacity:
+    storage: 300Mi
   accessModes:
   - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    path: /opt/test
+    path: /mnt/pool00
     server: 192.168.56.80
     readOnly: false
 ```
