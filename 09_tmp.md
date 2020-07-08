@@ -19,17 +19,21 @@ kind: Job
 metadata:
   name: sleep
 spec:
-  completions: 1
-  parallelism: 15
+  completions: 3
+  parallelism: 5
   ttlSecondsAfterFinished: 100
   template:
     spec:
       containers:
       - name: sleeper
         image: alpine
-        command: ["sleep", "30"]
+        command:
+        - "sh"
+        - "-c"
+        - "for i in `seq 0 15`; do echo $i; sleep 1; done"
       restartPolicy: Never
 ```
+
 
 You can run the example with this command:
 
