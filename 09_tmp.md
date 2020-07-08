@@ -10,22 +10,27 @@ Here is an example Job config. It computes π to 2000 places and prints it out. 
 
 <!-- https://kubernetes.io/docs/concepts/workloads/controllers/job/ -->
 
+vim sleeper.yaml
+
+
 ```yaml
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: pi-with-ttl
+  name: sleep
 spec:
+  completions: 1
+  parallelism: 15
   ttlSecondsAfterFinished: 100
   template:
     spec:
       containers:
-      - name: pi
-        image: perl
-        command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+      - name: sleeper
+        image: alpine
+        command: ["sleep", "30"]
       restartPolicy: Never
 ```
 
 You can run the example with this command:
 
-kubectl apply -f https://kubernetes.io/examples/controllers/job.yaml
+kubectl apply -f sleeper.yaml
