@@ -234,19 +234,21 @@ kubectl apply -f pv01.yaml
 ```
 
 
-
+```bash
+# 
 kubectl get persistentvolume
+```
 
 ou
 
+```bash
+# 
 kubectl get pv
-
-NAME   CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
-pv01   300Mi      RWX            Retain           Available                                   2m5s
-
+```
 
 <pre><i>
-
+NAME   CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+pv01   300Mi      RWX            Retain           Available                                   2m5s
 </i></pre>
 
 
