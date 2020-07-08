@@ -181,7 +181,27 @@ Volumes persistentes (pv) tem as seguintes políticas de reivindicação:
 
 ### PersistentVolumeClaim
 
-A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes (e.g., they can be mounted ReadWriteOnce, ReadOnlyMany or ReadWriteMany, see AccessModes).
+
+É uma requisição de storate por um usuário.
+É similar a um pod, que consomem recursos de nós e pv consome recursos de pv.
+PVCs podem solicitar tamanhos específicos e modeos de acesso (e. g. eles podem ser montados ReadWriteOnce, ReadOnlyMany ou ReadWriteMany)
+
+
+#### Access Modes
+
+A PersistentVolume can be mounted on a host in any way supported by the resource provider. As shown in the table below, providers will have different capabilities and each PV's access modes are set to the specific modes supported by that particular volume. For example, NFS can support multiple read/write clients, but a specific NFS PV might be exported on the server as read-only. Each PV gets its own set of access modes describing that specific PV's capabilities.
+
+The access modes are:
+
+- ReadWriteOnce -- the volume can be mounted as read-write by a single node
+- ReadOnlyMany -- the volume can be mounted read-only by many nodes
+- ReadWriteMany -- the volume can be mounted as read-write by many nodes
+
+In the CLI, the access modes are abbreviated to:
+
+- RWO - ReadWriteOnce
+- ROX - ReadOnlyMany
+- RWX - ReadWriteMany
 
 
 
