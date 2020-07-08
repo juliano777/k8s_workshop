@@ -168,8 +168,38 @@ tmpfs           984M     0  984M   0% /var/lib/kubelet/pods/3d0d39e0-ca77-4149-b
 
 ## PersistentVolume
 
+A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. It is a resource in the cluster just like a node is a cluster resource. PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV. This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
 
-# Servidor NFS
+## Política de Reivindicação de Volume Persistente - persistentVolumeReclaimPolicy
+
+Por que mudar uma política de reivindicação de um PersistentVolume?
+
+
+PersistentVolumes can have various reclaim policies, including "Retain", "Recycle", and "Delete".
+
+This means that a dynamically provisioned volume is automatically deleted when a user deletes the corresponding 
+
+
+
+This automatic behavior might be inappropriate if the volume contains precious data.
+In that case, it is more appropriate to use the "Retain" policy.
+With the "Retain" policy, if a user deletes a PersistentVolumeClaim, the corresponding PersistentVolume is not be deleted.
+Instead, it is moved to the Released phase, where all of its data can be manually recovered.
+
+- Retain: 
+- Recycle:
+- Delete (default): Um volume provisionado é automaticamente removido quando um usuário apaga seu PersistentVolumeClaim.
+
+### PersistentVolumeClaim
+
+A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes (e.g., they can be mounted ReadWriteOnce, ReadOnlyMany or ReadWriteMany, see AccessModes).
+
+
+
+
+[comment]: # (Servidor NFS)
+
+
 
 mkdir /opt/test
 
