@@ -200,17 +200,6 @@ A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar 
 
 
 
-[comment]: # (Servidor NFS)
-
-
-
-mkdir /opt/test
-
-echo '/opt/test *(rw,sync,no_root_squash,subtree_check)' > /etc/exports
-
-exportfs -ra
-
-
 # k8s
 
 
@@ -256,6 +245,10 @@ NAME   CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLA
 pv01   300Mi      RWX            Retain           Available                                   2m5s
 
 
+<pre><i>
+
+</i></pre>
+
 
 ```bash
 # 
@@ -282,23 +275,36 @@ kubectl apply -f pvc01.yaml
 ```
 
 
-kubectl get pv
 
+```bash
+# 
+kubectl get pv
+```
+
+
+<pre><i>
 NAME   CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM           STORAGECLASS   REASON   AGE
 pv01   300Mi      RWX            Retain           Bound    default/pvc01                           3m27s
+</i></pre>
 
 
 
+```bash
+# 
 kubectl get persistentvolumeclaims
+```
 
 ou
 
+```bash
+# 
 kubectl get pvc
+```
 
+<pre><i>
 NAME    STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 pvc01   Bound    pv01     300Mi      RWX                           98s
-
-
+</i></pre>
 
 ```bash
 # 
@@ -348,29 +354,56 @@ kubectl apply -f deploy-pv.yaml
 ```
 
 
-
+```bash
+# 
 kubectl get pods -l run=www
+```
 
+
+
+
+
+<pre><i>
 NAME                        READY   STATUS    RESTARTS   AGE
 deploy-pv-6759bfc68-2dpvg   1/1     Running   0          8s
 deploy-pv-6759bfc68-glj5n   1/1     Running   0          8s
 deploy-pv-6759bfc68-v77lx   1/1     Running   0          8s
+</i></pre>
 
 
 
-
-
+```bash
+# 
 kubectl exec -it deploy-pv-6759bfc68-2dpvg -- touch /test/blablabla.txt
+```
 
 
 
+
+
+```bash
+# 
 kubectl exec -it deploy-pv-6759bfc68-v77lx -- ls /test/
+```
+
+
+
+<pre><i>
+
+</i></pre>
 
 blablabla.txt
 
-
-
+```bash
+# 
 kubectl describe deploy deploy-pv | fgrep -A4 Volumes
+```
+
+
+
+<pre><i>
+
+</i></pre>
 
   Volumes:
    test:
@@ -379,7 +412,10 @@ kubectl describe deploy deploy-pv | fgrep -A4 Volumes
     ReadOnly:   false
 
 
-kubectl delete -f deploy-pv.yaml    
+```bash
+# 
+kubectl delete -f deploy-pv.yaml
+```
 
 
 
@@ -387,8 +423,11 @@ kubectl delete -f deploy-pv.yaml
 
 
 
+<pre><i>
+
+</i></pre>
 
 
 
 
-## PersistentVolumeClaim
+
