@@ -173,34 +173,16 @@ A PersistentVolume (PV) is a piece of storage in the cluster that has been provi
 ## Política de Reivindicação de Volume Persistente - persistentVolumeReclaimPolicy
 
 Por que mudar uma política de reivindicação de um PersistentVolume?
+Volumes persistentes (pv) tem as seguintes políticas de reivindicação:
 
-
-PersistentVolumes can have various reclaim policies, including "Retain", "Recycle", and "Delete".
-
-This means that a dynamically provisioned volume is automatically deleted when a user deletes the corresponding 
-
-
-
-This automatic behavior might be inappropriate if the volume contains precious data.
-
-In that case, it is more appropriate to use the "Retain" policy.
-
-With the "Retain" policy, if a user deletes a PersistentVolumeClaim, the corresponding PersistentVolume is not be deleted.
-
-Instead, it is moved to the Released phase, where all of its data can be manually recovered.
-
-- Retain: 
-- Recycle:
+- Retain: Mantém o pv mesmo se seu pvc for apagado.
+- Recycle: É uma política de reivindicação de pv depreciada. Seu efeito consistem em se o pvc correspondente for apagado, os dados são apagados também.
 - Delete (default): Um volume provisionado é automaticamente removido quando um usuário apaga seu PersistentVolumeClaim.
 
 ### PersistentVolumeClaim
 
 A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes (e.g., they can be mounted ReadWriteOnce, ReadOnlyMany or ReadWriteMany, see AccessModes).
 
-
-
-
-# k8s
 
 
 ```bash
@@ -234,6 +216,7 @@ kubectl apply -f pv01.yaml
 ```
 
 
+
 ```bash
 # 
 kubectl get persistentvolume
@@ -250,6 +233,7 @@ kubectl get pv
 NAME   CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
 pv01   300Mi      RWX            Retain           Available                                   2m5s
 </i></pre>
+
 
 
 ```bash
@@ -356,14 +340,11 @@ kubectl apply -f deploy-pv.yaml
 ```
 
 
+
 ```bash
 # 
 kubectl get pods -l run=www
 ```
-
-
-
-
 
 <pre><i>
 NAME                        READY   STATUS    RESTARTS   AGE
@@ -378,8 +359,6 @@ deploy-pv-6759bfc68-v77lx   1/1     Running   0          8s
 # 
 kubectl exec -it deploy-pv-6759bfc68-2dpvg -- touch /test/blablabla.txt
 ```
-
-
 
 
 
@@ -420,16 +399,6 @@ kubectl delete -f deploy-pv.yaml
 ```
 
 
-
-
-
-
-
 <pre><i>
 
 </i></pre>
-
-
-
-
-
