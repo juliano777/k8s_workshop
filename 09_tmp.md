@@ -94,3 +94,29 @@ kubectl logs sleep-ltdm9
 
 . . .
 </i></pre>
+
+
+
+```bash
+# 
+kubectl get pods -l myJob=Sleeper
+```
+
+<pre><i>
+NAME          READY   STATUS      RESTARTS   AGE
+sleep-ltdm9   0/1     Completed   0          9m38s
+sleep-rgx8f   0/1     Completed   0          9m38s
+sleep-z4ppc   0/1     Completed   0          9m38s
+</i></pre>
+
+
+
+```bash
+# 
+kubectl get jobs -l myJob=Sleeper
+```
+
+<pre><i>
+NAME    COMPLETIONS   DURATION   AGE
+sleep   3/3           24s        10m
+</i></pre>
