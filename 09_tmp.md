@@ -120,3 +120,46 @@ kubectl get jobs -l myJob=Sleeper
 NAME    COMPLETIONS   DURATION   AGE
 sleep   3/3           24s        10m
 </i></pre>
+
+
+
+```bash
+# 
+kubectl describe jobs sleep
+```
+
+<pre><i>
+Name:           sleep
+Namespace:      default
+Selector:       controller-uid=3c95fe5d-9534-46e7-87bc-a3e2c7661828
+Labels:         myJob=Sleeper
+Annotations:    Parallelism:  5
+Completions:    3
+Start Time:     Thu, 09 Jul 2020 10:24:57 -0300
+Completed At:   Thu, 09 Jul 2020 10:25:21 -0300
+Duration:       24s
+Pods Statuses:  0 Running / 3 Succeeded / 0 Failed
+Pod Template:
+  Labels:  controller-uid=3c95fe5d-9534-46e7-87bc-a3e2c7661828
+           job-name=sleep
+           myJob=Sleeper
+  Containers:
+   sleeper:
+    Image:      alpine
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      for i in `seq 0 15`; do echo $i; sleep 1; done
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Events:
+  Type    Reason            Age   From            Message
+  ----    ------            ----  ----            -------
+  Normal  SuccessfulCreate  57m   job-controller  Created pod: sleep-rgx8f
+  Normal  SuccessfulCreate  57m   job-controller  Created pod: sleep-ltdm9
+  Normal  SuccessfulCreate  57m   job-controller  Created pod: sleep-z4ppc
+  Normal  Completed         56m   job-controller  Job completed
+</i></pre>
