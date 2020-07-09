@@ -10,7 +10,13 @@ Here is an example Job config. It computes π to 2000 places and prints it out. 
 
 <!-- https://kubernetes.io/docs/concepts/workloads/controllers/job/ -->
 
+
+
+```bash
+# 
 vim sleeper.yaml
+```
+
 
 
 ```yaml
@@ -18,11 +24,16 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: sleep
+  labels:
+    myJob: Sleeper
 spec:
   completions: 3
   parallelism: 5
   ttlSecondsAfterFinished: 100
   template:
+    metadata:
+      labels:
+        myJob: Sleeper
     spec:
       containers:
       - name: sleeper
@@ -35,6 +46,51 @@ spec:
 ```
 
 
-You can run the example with this command:
 
+```bash
+# 
 kubectl apply -f sleeper.yaml
+```
+
+
+
+```bash
+# 
+kubectl get jobs -l myJob=Sleeper
+```
+
+<pre><i>
+NAME    COMPLETIONS   DURATION   AGE
+sleep   0/3           17s        17s
+</i></pre>
+
+
+
+```bash
+# 
+kubectl get pods -l myJob=Sleeper
+```
+
+<pre><i>
+NAME          READY   STATUS    RESTARTS   AGE
+sleep-ltdm9   1/1     Running   0          11s
+sleep-rgx8f   1/1     Running   0          11s
+sleep-z4ppc   1/1     Running   0          11s
+</i></pre>
+
+
+
+```bash
+# 
+kubectl logs sleep-ltdm9
+```
+
+
+<pre><i>
+0
+1
+2
+3
+
+. . .
+</i></pre>
