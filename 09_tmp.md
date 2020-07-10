@@ -34,9 +34,6 @@ metadata:
   labels:
     myJob: Sleeper
 spec:
-  #completions: 3
-  #parallelism: 5
-  ttlSecondsAfterFinished: 10
   template:
     metadata:
       labels:
@@ -48,7 +45,7 @@ spec:
         command:
         - "sh"
         - "-c"
-        - "for i in `seq 0 15`; do echo $i; sleep 1; done"
+        - "for i in `seq 0 4`; do echo $i; sleep 1; done"
       restartPolicy: Never
 ```
 
@@ -96,8 +93,7 @@ kubectl logs sleep-nhssr
 1
 2
 3
-
-. . .
+4
 </i></pre>
 
 
@@ -167,16 +163,104 @@ Events:
 
 
 
+## Jobs Paralelos
+
+### Completions
+
+
 ```bash
 # 
-kubectl delete jobs --field-selector status.successful=1
+vim job-completion.yaml
 ```
 
 
 
-## Job Completions
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sleep
+  labels:
+    myJob: Sleeper
+spec:
+  completions: 10
+  template:
+    metadata:
+      labels:
+        myJob: Sleeper
+    spec:
+      containers:
+      - name: sleeper
+        image: alpine
+        command:
+        - "sh"
+        - "-c"
+        - "for i in `seq 0 5`; do echo $i; sleep 1; done"
+      restartPolicy: Never
+```
 
-A Job creates one or more Pods and ensures that a specified number of them successfully terminate. As pods successfully complete, the Job tracks the successful completions. When a specified number of successful completions is reached, the task (ie, Job) is complete.
 
+
+```bash
+# 
+kubectl apply -f job-completion.yaml
+```
+
+
+
+```bash
+# 
+kubectl get jobs -l myJob=Sleeper
+```
+
+
+
+### Parallelism
+
+
+```bash
+# 
+vim job-parallelism.yaml
+```
+
+
+
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sleep
+  labels:
+    myJob: Sleeper
+spec:
+  parallelism: 10
+  template:
+    metadata:
+      labels:
+        myJob: Sleeper
+    spec:
+      containers:
+      - name: sleeper
+        image: alpine
+        command:
+        - "sh"
+        - "-c"
+        - "for i in `seq 0 5`; do echo $i; sleep 1; done"
+      restartPolicy: Never
+```
+
+
+
+```bash
+# 
+kubectl apply -f job-parallelism.yaml
+```
+
+
+
+```bash
+# 
+kubectl get jobs -l myJob=Sleeper
+```
 
 
