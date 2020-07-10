@@ -12,9 +12,16 @@ Here is an example Job config. It computes π to 2000 places and prints it out. 
 
 
 
+## Single Job
+
+Um único job é adequado para fazer testes unitários, testar contêineres ou para aplicações batch.
+Normalmente, apenas um pod é iniciado, a não ser que o pod falhe.
+O job é finalizado assim que seu pod termina de forma bem sucedida.
+
+
 ```bash
 # 
-vim sleeper.yaml
+vim job-single.yaml
 ```
 
 
@@ -27,9 +34,9 @@ metadata:
   labels:
     myJob: Sleeper
 spec:
-  completions: 3
-  parallelism: 5
-  ttlSecondsAfterFinished: 100
+  #completions: 3
+  #parallelism: 5
+  ttlSecondsAfterFinished: 10
   template:
     metadata:
       labels:
@@ -49,7 +56,7 @@ spec:
 
 ```bash
 # 
-kubectl apply -f sleeper.yaml
+kubectl apply -f job-single.yaml
 ```
 
 
@@ -61,7 +68,7 @@ kubectl get jobs -l myJob=Sleeper
 
 <pre><i>
 NAME    COMPLETIONS   DURATION   AGE
-sleep   0/3           17s        17s
+sleep   0/1           10s        10s
 </i></pre>
 
 
@@ -73,16 +80,14 @@ kubectl get pods -l myJob=Sleeper
 
 <pre><i>
 NAME          READY   STATUS    RESTARTS   AGE
-sleep-ltdm9   1/1     Running   0          11s
-sleep-rgx8f   1/1     Running   0          11s
-sleep-z4ppc   1/1     Running   0          11s
+sleep-nhssr   1/1     Running   0          6s
 </i></pre>
 
 
 
 ```bash
 # 
-kubectl logs sleep-ltdm9
+kubectl logs sleep-nhssr
 ```
 
 
@@ -104,9 +109,7 @@ kubectl get pods -l myJob=Sleeper
 
 <pre><i>
 NAME          READY   STATUS      RESTARTS   AGE
-sleep-ltdm9   0/1     Completed   0          9m38s
-sleep-rgx8f   0/1     Completed   0          9m38s
-sleep-z4ppc   0/1     Completed   0          9m38s
+sleep-nhssr   0/1     Completed   0          58s
 </i></pre>
 
 
@@ -118,7 +121,7 @@ kubectl get jobs -l myJob=Sleeper
 
 <pre><i>
 NAME    COMPLETIONS   DURATION   AGE
-sleep   3/3           24s        10m
+sleep   1/1           22s        92s
 </i></pre>
 
 
@@ -131,16 +134,16 @@ kubectl describe jobs sleep
 <pre><i>
 Name:           sleep
 Namespace:      default
-Selector:       controller-uid=3c95fe5d-9534-46e7-87bc-a3e2c7661828
+Selector:       controller-uid=003497cd-7a7b-4286-ab39-9bcc8115703d
 Labels:         myJob=Sleeper
-Annotations:    Parallelism:  5
-Completions:    3
-Start Time:     Thu, 09 Jul 2020 10:24:57 -0300
-Completed At:   Thu, 09 Jul 2020 10:25:21 -0300
-Duration:       24s
-Pods Statuses:  0 Running / 3 Succeeded / 0 Failed
+Annotations:    Parallelism:  1
+Completions:    1
+Start Time:     Fri, 10 Jul 2020 08:25:47 -0300
+Completed At:   Fri, 10 Jul 2020 08:26:09 -0300
+Duration:       22s
+Pods Statuses:  0 Running / 1 Succeeded / 0 Failed
 Pod Template:
-  Labels:  controller-uid=3c95fe5d-9534-46e7-87bc-a3e2c7661828
+  Labels:  controller-uid=003497cd-7a7b-4286-ab39-9bcc8115703d
            job-name=sleep
            myJob=Sleeper
   Containers:
@@ -158,8 +161,22 @@ Pod Template:
 Events:
   Type    Reason            Age   From            Message
   ----    ------            ----  ----            -------
-  Normal  SuccessfulCreate  57m   job-controller  Created pod: sleep-rgx8f
-  Normal  SuccessfulCreate  57m   job-controller  Created pod: sleep-ltdm9
-  Normal  SuccessfulCreate  57m   job-controller  Created pod: sleep-z4ppc
-  Normal  Completed         56m   job-controller  Job completed
+  Normal  SuccessfulCreate  2m2s  job-controller  Created pod: sleep-nhssr
+  Normal  Completed         100s  job-controller  Job completed
 </i></pre>
+
+
+
+```bash
+# 
+kubectl delete jobs --field-selector status.successful=1
+```
+
+
+
+## Job Completions
+
+A Job creates one or more Pods and ensures that a specified number of them successfully terminate. As pods successfully complete, the Job tracks the successful completions. When a specified number of successful completions is reached, the task (ie, Job) is complete.
+
+
+
