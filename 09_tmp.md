@@ -163,7 +163,16 @@ Events:
 
 
 
-## Jobs Paralelos
+```bash
+# 
+kubectl delete -f job-single.yaml
+```
+
+
+
+## Múltiplos Jobs
+
+
 
 ### Completions
 
@@ -173,21 +182,19 @@ Events:
 vim job-completion.yaml
 ```
 
-
-
 ```yaml
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: sleep
+  name: sleep-completion
   labels:
-    myJob: Sleeper
+    myJob: SleeperCompletion
 spec:
   completions: 10
   template:
     metadata:
       labels:
-        myJob: Sleeper
+        myJob: SleeperCompletion
     spec:
       containers:
       - name: sleeper
@@ -195,7 +202,7 @@ spec:
         command:
         - "sh"
         - "-c"
-        - "for i in `seq 0 5`; do echo $i; sleep 1; done"
+        - "for i in `seq 0 9`; do echo $i; sleep 1; done"
       restartPolicy: Never
 ```
 
@@ -209,8 +216,35 @@ kubectl apply -f job-completion.yaml
 
 
 ```bash
+# Dê o seguinte comando para visualizar os jobs sendo concluídos.
+# Repita até todos terem terminado:
+kubectl get pods -l myJob=SleeperCompletion
+```
+
+<pre><i>
+sleep-completion-95mph   0/1     Completed   0          21s
+sleep-completion-mmfdt   1/1     Running     0          6s
+</i></pre>
+
+Note que os pods vão sendo criados conforme o job do pod anterior ter sido concluído.
+
+
+
+```bash
 # 
-kubectl get jobs -l myJob=Sleeper
+kubectl get jobs -l myJob=SleeperCompletion
+```
+
+<pre><i>
+NAME               COMPLETIONS   DURATION   AGE
+sleep-completion   10/10         2m33s      3m54s
+</i></pre>
+
+
+
+```bash
+# 
+kubectl delete -f job-completion.yaml
 ```
 
 
@@ -223,21 +257,19 @@ kubectl get jobs -l myJob=Sleeper
 vim job-parallelism.yaml
 ```
 
-
-
 ```yaml
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: sleep
+  name: sleep-parallelism
   labels:
-    myJob: Sleeper
+    myJob: SleeperParallelism
 spec:
   parallelism: 10
   template:
     metadata:
       labels:
-        myJob: Sleeper
+        myJob: SleeperParallelism
     spec:
       containers:
       - name: sleeper
@@ -245,7 +277,7 @@ spec:
         command:
         - "sh"
         - "-c"
-        - "for i in `seq 0 5`; do echo $i; sleep 1; done"
+        - "for i in `seq 0 9`; do echo $i; sleep 1; done"
       restartPolicy: Never
 ```
 
@@ -259,8 +291,43 @@ kubectl apply -f job-parallelism.yaml
 
 
 ```bash
-# 
-kubectl get jobs -l myJob=Sleeper
+# Verificar os pods desse job:
+kubectl get pods -l myJob=SleeperParallelism
 ```
 
+<pre><i>
+NAME                      READY   STATUS              RESTARTS   AGE
+sleep-parallelism-cdc9m   0/1     ContainerCreating   0          8s
+sleep-parallelism-ch6r5   0/1     ContainerCreating   0          8s
+sleep-parallelism-fk25j   0/1     ContainerCreating   0          8s
+sleep-parallelism-hwnqz   0/1     ContainerCreating   0          8s
+sleep-parallelism-jltnr   0/1     ContainerCreating   0          8s
+sleep-parallelism-mvgmc   1/1     Running             0          8s
+sleep-parallelism-p7hvm   1/1     Running             0          8s
+sleep-parallelism-qd2j2   0/1     ContainerCreating   0          8s
+sleep-parallelism-w4kq8   0/1     ContainerCreating   0          8s
+sleep-parallelism-zpzm6   0/1     ContainerCreating   0          8s
+</i></pre>
 
+Diferente de completions, com parallelism os pods são criados praticamente ao
+mesmo tempo de acordo com a quantidade especificada e todos são executados
+simultaneamente.
+
+
+
+```bash
+# 
+kubectl get jobs -l myJob=SleeperParallelism
+```
+
+<pre><i>
+NAME                COMPLETIONS   DURATION   AGE
+sleep-parallelism   10/1 of 10    29s        47s
+</i></pre>
+
+
+
+```bash
+# 
+kubectl delete -f job-parallelism.yaml
+```
