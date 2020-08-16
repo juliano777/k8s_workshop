@@ -1,6 +1,6 @@
 # RBAC
 
-Role-based access control (RBAC) is a method of regulating access to computer or network resources based on the roles of individual users within your organization.
+Role-Based Access Control (RBAC) is a method of regulating access to computer or network resources based on the roles of individual users within your organization.
 
 RBAC authorization uses the rbac.authorization.k8s.io API group to drive authorization decisions, allowing you to dynamically configure policies through the Kubernetes API.
 

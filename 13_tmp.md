@@ -92,3 +92,10 @@ kubectl exec -ti pod-www -- cat /usr/share/nginx/html/index.html
 ```
 
 . . .
+
+
+
+```bash
+# Removendo o pod:
+kubectl delete pod pod-www
+```
