@@ -228,7 +228,60 @@ spec:
     command:
       - sleep
       - "3600"
-    envFrom:
-    - configMapRef:
-        name: capitais
+    volumeMounts:
+    - name: vol-configmap
+      mountPath: /var/tmp/capitais
+  volumes:
+  - name: vol-configmap
+    configMap:
+      name: capitais
 ```
+
+
+
+```bash
+# 
+kubectl apply -f pod-arquivo.yaml
+```
+
+
+
+```bash
+# 
+kubectl describe pod pod-arquivo | fgrep -A3 'Volumes:'
+```
+
+<pre><i>
+Volumes:
+  vol-configmap:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      capitais
+</i></pre>
+
+
+
+```bash
+# 
+kubectl exec -it pod-arquivo -- ls -lh /var/tmp/capitais
+```
+
+<pre><i>
+total 0      
+lrwxrwxrwx    1 root     root           9 Aug 16 13:50 br -> ..data/br
+lrwxrwxrwx    1 root     root           9 Aug 16 13:50 mg -> ..data/mg
+lrwxrwxrwx    1 root     root           9 Aug 16 13:50 pr -> ..data/pr
+lrwxrwxrwx    1 root     root           9 Aug 16 13:50 rj -> ..data/rj
+lrwxrwxrwx    1 root     root           9 Aug 16 13:50 rn -> ..data/rn
+lrwxrwxrwx    1 root     root           9 Aug 16 13:50 sp -> ..data/sp
+</i></pre>
+
+
+
+```bash
+# 
+kubectl exec -it pod-arquivo -- cat /var/tmp/capitais/sp
+```
+
+<pre><i>
+São Paulo
+</i></pre>
