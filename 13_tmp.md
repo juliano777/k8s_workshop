@@ -80,27 +80,15 @@ kubectl apply -f initcontainer-01.yaml
 
 
 ```bash
-# 
-kubectl exec -ti init-zero -- cat /usr/share/nginx/html/index.html
-```
-
-
-
-```bash
-# 
-kubectl describe pod init-zero
-```
-
-<pre><i>
-
-</i></pre>
-
-
-
-```bash
 # Caso houver erro por conta de acesso à internet, dê o seguinte comando:
 sudo iptables -P FORWARD ACCEPT
 ```
 
 
 
+```bash
+# 
+kubectl exec -ti pod-www -- cat /usr/share/nginx/html/index.html
+```
+
+. . .
