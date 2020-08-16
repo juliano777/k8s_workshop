@@ -285,3 +285,10 @@ kubectl exec -it pod-arquivo -- cat /var/tmp/capitais/sp
 <pre><i>
 São Paulo
 </i></pre>
+
+
+
+```bash
+# 
+kubectl delete pod pod-arquivo
+```

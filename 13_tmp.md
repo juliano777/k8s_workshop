@@ -36,37 +36,37 @@ Because init containers have separate images from app containers, they have some
 
 ```bash
 # 
-vim nginx-initcontainer.yaml
+vim initcontainer-01.yaml
 ```
 
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: init-demo
+  name: pod-www
 spec:
   containers:
-  - name: nginx
+  - name: www
     image: nginx
     ports:
     - containerPort: 80
     volumeMounts:
-    - name: workdir
+    - name: www-dir
       mountPath: /usr/share/nginx/html
   initContainers:
-  - name: install
+  - name: racer-x
     image: busybox
     command:
-    - wget
-    - "-O"
-    - "/work-dir/index.html"
-    - http://kubernetes.io
+    - 'wget'
+    - '-O'
+    - '/zero/index.html'
+    - 'http://kubernetes.io'
     volumeMounts:
-    - name: workdir
-      mountPath: "/work-dir"
+    - name: www-dir
+      mountPath: '/zero'
   dnsPolicy: Default
   volumes:
-  - name: workdir
+  - name: www-dir
     emptyDir: {}
 ```
 
@@ -74,23 +74,33 @@ spec:
 
 ```bash
 # 
-kubectl apply -f nginx-initcontainer.yaml
+kubectl apply -f initcontainer-01.yaml
 ```
 
 
 
 ```bash
 # 
-kubectl exec -ti init-demo -- cat /usr/share/nginx/html/index.html
+kubectl exec -ti init-zero -- cat /usr/share/nginx/html/index.html
 ```
 
 
 
 ```bash
 # 
-kubectl describe pod init-demo
+kubectl describe pod init-zero
 ```
 
 <pre><i>
 
 </i></pre>
+
+
+
+```bash
+# Caso houver erro por conta de acesso à internet, dê o seguinte comando:
+sudo iptables -P FORWARD ACCEPT
+```
+
+
+
