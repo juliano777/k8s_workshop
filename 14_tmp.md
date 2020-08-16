@@ -7,16 +7,155 @@ RBAC authorization uses the rbac.authorization.k8s.io API group to drive authori
 
 
 ```bash
-# 
+# Criação de uma conta:
 kubectl create serviceaccount vivaldi
 ```
 
 
 
 ```bash
-# 
-kubectl create clusterrolebinding toskeria --serviceaccount=default:vivaldi --clusterrole=cluster-admin
+# Verificando contas:
+kubectl get serviceaccounts 
 ```
+
+<pre><i>
+NAME      SECRETS   AGE
+default   1         72d
+vivaldi   1         7s
+</i></pre>
+
+
+
+```bash
+# Descrição da conta criada:
+kubectl describe serviceaccounts vivaldi
+```
+
+<pre><i>
+Name:                vivaldi
+Namespace:           default
+Labels:              <none>
+Annotations:         <none>
+Image pull secrets:  <none>
+Mountable secrets:   vivaldi-token-5hnz7
+Tokens:              vivaldi-token-5hnz7
+Events:              <none>
+</i></pre>
+
+
+
+```bash
+# Verificando cluster roles:
+kubectl get clusterroles | head
+```
+
+<pre><i>
+NAME                                                                   CREATED AT
+admin                                                                  2020-06-04T19:49:30Z
+calico-kube-controllers                                                2020-06-04T19:50:14Z
+calico-node                                                            2020-06-04T19:50:14Z
+cluster-admin                                                          2020-06-04T19:49:30Z
+edit                                                                   2020-06-04T19:49:30Z
+kubeadm:get-nodes                                                      2020-06-04T19:49:32Z
+system:aggregate-to-admin                                              2020-06-04T19:49:30Z
+system:aggregate-to-edit                                               2020-06-04T19:49:30Z
+system:aggregate-to-view                                               2020-06-04T19:49:30Z
+</i></pre>
+
+
+
+```bash
+# 
+kubectl describe clusterrole cluster-admin
+```
+
+<pre><i>
+Name:         cluster-admin
+Labels:       kubernetes.io/bootstrapping=rbac-defaults
+Annotations:  rbac.authorization.kubernetes.io/autoupdate: true
+PolicyRule:
+  Resources  Non-Resource URLs  Resource Names  Verbs
+  ---------  -----------------  --------------  -----
+  *.*        []                 []              [*]
+             [*]                []              [*]
+</i></pre>
+
+
+
+```bash
+# 
+kubectl describe clusterrole view | head -20
+```
+
+<pre><i>
+Name:         view
+Labels:       kubernetes.io/bootstrapping=rbac-defaults
+              rbac.authorization.k8s.io/aggregate-to-edit=true
+Annotations:  rbac.authorization.kubernetes.io/autoupdate: true
+PolicyRule:
+  Resources                                    Non-Resource URLs  Resource Names  Verbs
+  ---------                                    -----------------  --------------  -----
+  bindings                                     []                 []              [get list watch]
+  configmaps                                   []                 []              [get list watch]
+  endpoints                                    []                 []              [get list watch]
+  events                                       []                 []              [get list watch]
+  limitranges                                  []                 []              [get list watch]
+  namespaces/status                            []                 []              [get list watch]
+  namespaces                                   []                 []              [get list watch]
+  persistentvolumeclaims/status                []                 []              [get list watch]
+  persistentvolumeclaims                       []                 []              [get list watch]
+  pods/log                                     []                 []              [get list watch]
+  pods/status                                  []                 []              [get list watch]
+  pods                                         []                 []              [get list watch]
+  replicationcontrollers/scale                 []                 []              [get list watch]
+</i></pre>
+
+
+
+```bash
+# 
+kubectl describe clusterrolebinding cluster-admin
+```
+
+<pre><i>
+Name:         cluster-admin
+Labels:       kubernetes.io/bootstrapping=rbac-defaults
+Annotations:  rbac.authorization.kubernetes.io/autoupdate: true
+Role:
+  Kind:  ClusterRole
+  Name:  cluster-admin
+Subjects:
+  Kind   Name            Namespace
+  ----   ----            ---------
+  Group  system:masters
+</i></pre>
+
+
+
+```bash
+# 
+kubectl create clusterrolebinding foo --serviceaccount=default:vivaldi --clusterrole=cluster-admin
+```
+
+
+
+```bash
+# 
+kubectl describe clusterrolebinding foo
+```
+
+<pre><i>
+Name:         foo
+Labels:       <none>
+Annotations:  <none>
+Role:
+  Kind:  ClusterRole
+  Name:  cluster-admin
+Subjects:
+  Kind            Name     Namespace
+  ----            ----     ---------
+  ServiceAccount  vivaldi  default
+</i></pre>
 
 
 
@@ -30,8 +169,35 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: admin-user
-  namespace: kube-system
+  namespace: kube-system  # Namespace de administração do k8s
 ```
+
+
+
+```bash
+# 
+kubectl apply -f admin-user.yaml
+```
+
+
+
+```bash
+# 
+kubectl -n kube-system get serviceaccount | head
+```
+
+<pre><i>
+NAME                                 SECRETS   AGE
+admin-user                           1         2m11s
+attachdetach-controller              1         72d
+bootstrap-signer                     1         72d
+calico-kube-controllers              1         72d
+calico-node                          1         72d
+certificate-controller               1         72d
+clusterrole-aggregation-controller   1         72d
+coredns                              1         72d
+cronjob-controller                   1         72d
+</i></pre>
 
 
 
@@ -59,12 +225,24 @@ subjects:
 
 ```bash
 # 
-kubectl apply -f admin-user.yaml
+kubectl apply -f admin-cluster-role-binding.yaml
 ```
 
 
 
 ```bash
 # 
-kubectl apply -f admin-cluster-role-binding.yaml
+kubectl -n kube-system describe clusterrolebinding admin-user
 ```
+
+<pre><i>
+Name:         admin-user
+Labels:       <none>
+Annotations:  Role:
+  Kind:       ClusterRole
+  Name:       cluster-admin
+Subjects:
+  Kind            Name        Namespace
+  ----            ----        ---------
+  ServiceAccount  admin-user  kube-system
+</i></pre>
