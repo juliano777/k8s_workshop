@@ -1,8 +1,56 @@
 # RBAC
 
-Role-Based Access Control (RBAC) is a method of regulating access to computer or network resources based on the roles of individual users within your organization.
+_Role-Based Access Control_, em português; Controle de ACeso Baseado em Papel (Função) é um método de regular o acesso a recursos ou rede com base nas funções de usuários individuais.
+A autorização RBAC usa o grupo de API rbac.authorization.k8s.io para conduzir as decisões de autorização, permitindo dinamicamente configurar políticas através da API do Kubernetes.
 
-RBAC authorization uses the rbac.authorization.k8s.io API group to drive authorization decisions, allowing you to dynamically configure policies through the Kubernetes API.
+https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+
+
+
+
+```bash
+# Cópia do diretório template de home de usuário padrão para /tmp:
+sudo cp -r /etc/skel /tmp/
+```
+
+
+
+```bash
+# Cópia do diretório .kube para /tmp/skel:
+sudo cp -r ~/.kube /tmp/skel/
+```
+
+
+
+```bash
+# Criação de grupos:
+sudo groupadd alpha
+sudo groupadd beta
+```
+
+
+
+```bash
+# Criação de usuários:
+sudo useradd -g alpha -k /tmp/skel -d /home/vivaldi -s /bin/bash -m vivaldi
+sudo useradd -g alpha -k /tmp/skel -d /home/bach -s /bin/bash -m bach
+sudo useradd -g alpha -k /tmp/skel -d /home/beethoven -s /bin/bash \
+  -m beethoven
+sudo useradd -g beta -k /tmp/skel -d /home/gauss -s /bin/bash -m gauss
+sudo useradd -g beta -k /tmp/skel -d /home/euler -s /bin/bash -m euler
+```
+
+
+
+```bash
+# Verificando se o RBAC está ativado no cluster:
+kubectl -n kube-system describe pod -l component=kube-apiserver | \
+  fgrep 'authorization-mode'
+```
+
+<pre><i>
+--authorization-mode=Node,RBAC
+</i></pre>
 
 
 
