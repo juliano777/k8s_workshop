@@ -1,155 +1,155 @@
-# Capítulo 1 — Fundamentos e contexto
-## Por que Kubernetes existe
-### Do bare metal às VMs e aos containers
-### Problemas que a orquestração resolve (escala, resiliência, deploy)
-## Revisão rápida de containers
-### Docker / containerd / CRI-O e o padrão OCI
-### Imagens, registries e o ciclo de vida de um container
-## Arquitetura do Kubernetes
-### Control plane: kube-apiserver, etcd, scheduler, controller-manager
-### Nós de trabalho: kubelet, kube-proxy, container runtime
-### O modelo declarativo e o loop de reconciliação
+[**Capítulo 1 — Fundamentos e contexto**](arquivo.md)
+- [Por que Kubernetes existe](arquivo.md)
+    - [Do bare metal às VMs e aos containers](arquivo.md)
+    - [Problemas que a orquestração resolve (escala, resiliência, deploy)](arquivo.md)
+- [Revisão rápida de containers](arquivo.md)
+    - [Docker / containerd / CRI-O e o padrão OCI](arquivo.md)
+    - [Imagens, registries e o ciclo de vida de um container](arquivo.md)
+- [Arquitetura do Kubernetes](arquivo.md)
+    - [Control plane: kube-apiserver, etcd, scheduler, controller-manager](arquivo.md)
+    - [Nós de trabalho: kubelet, kube-proxy, container runtime](arquivo.md)
+    - [O modelo declarativo e o loop de reconciliação](arquivo.md)
 
-# Capítulo 2 — Instalação standalone (nó único)
-## Opções para ambiente local
-### Minikube
-### Kind (Kubernetes in Docker)
-### k3s / MicroK8s
-### Comparativo: quando usar cada um
-## Instalação passo a passo (laboratório)
-### Pré-requisitos de máquina (CPU, RAM, virtualização)
-### Instalando o kubectl
-### Subindo o primeiro cluster de nó único
-### Verificando a saúde do cluster (kubectl get nodes, cluster-info)
-## Primeiros comandos com kubectl
-### Contextos e kubeconfig
-### get, describe, logs, exec
-### Modo imperativo vs. declarativo (YAML)
+[**Capítulo 2 — Instalação standalone (nó único)**](arquivo.md)
+- [Opções para ambiente local](arquivo.md)
+    - [Minikube](arquivo.md)
+    - [Kind (Kubernetes in Docker)](arquivo.md)
+    - [k3s / MicroK8s](arquivo.md)
+    - [Comparativo: quando usar cada um](arquivo.md)
+- [Instalação passo a passo (laboratório)](arquivo.md)
+    - [Pré-requisitos de máquina (CPU, RAM, virtualização)](arquivo.md)
+    - [Instalando o kubectl](arquivo.md)
+    - [Subindo o primeiro cluster de nó único](arquivo.md)
+    - [Verificando a saúde do cluster (kubectl get nodes, cluster-info)](arquivo.md)
+- [Primeiros comandos com kubectl](arquivo.md)
+    - [Contextos e kubeconfig](arquivo.md)
+    - [get, describe, logs, exec](arquivo.md)
+    - [Modo imperativo vs. declarativo (YAML)](arquivo.md)
 
-# Capítulo 3 — Objetos fundamentais
-## Pods
-### Anatomia de um Pod e ciclo de vida
-### Multi-container Pods e sidecars
-### Probes: liveness, readiness, startup
-## Controladores de workload
-### ReplicaSet
-### Deployment (rolling update e rollback)
-### DaemonSet, StatefulSet e Job/CronJob (visão geral)
-## Namespaces
-### Organização lógica de recursos
-### Labels, selectors e annotations
+[**Capítulo 3 — Objetos fundamentais**](arquivo.md)
+- [Pods](arquivo.md)
+    - [Anatomia de um Pod e ciclo de vida](arquivo.md)
+    - [Multi-container Pods e sidecars](arquivo.md)
+    - [Probes: liveness, readiness, startup](arquivo.md)
+- [Controladores de workload](arquivo.md)
+    - [ReplicaSet](arquivo.md)
+    - [Deployment (rolling update e rollback)](arquivo.md)
+    - [DaemonSet, StatefulSet e Job/CronJob (visão geral)](arquivo.md)
+- [Namespaces](arquivo.md)
+    - [Organização lógica de recursos](arquivo.md)
+    - [Labels, selectors e annotations](arquivo.md)
 
-# Capítulo 4 — Rede e exposição de serviços
-## Modelo de rede do Kubernetes
-### IP por Pod e comunicação entre Pods
-### CNI: o que é e principais plugins (Calico, Flannel, Cilium)
-## Services
-### ClusterIP, NodePort, LoadBalancer
-### DNS interno (CoreDNS) e service discovery
-## Ingress
-### Ingress Controllers (NGINX, Traefik)
-### Roteamento por host e path
-### TLS básico no Ingress
+[**Capítulo 4 — Rede e exposição de serviços**](arquivo.md)
+- [Modelo de rede do Kubernetes](arquivo.md)
+    - [IP por Pod e comunicação entre Pods](arquivo.md)
+    - [CNI: o que é e principais plugins (Calico, Flannel, Cilium)](arquivo.md)
+- [Services](arquivo.md)
+    - [ClusterIP, NodePort, LoadBalancer](arquivo.md)
+    - [DNS interno (CoreDNS) e service discovery](arquivo.md)
+- [Ingress](arquivo.md)
+    - [Ingress Controllers (NGINX, Traefik)](arquivo.md)
+    - [Roteamento por host e path](arquivo.md)
+    - [TLS básico no Ingress](arquivo.md)
 
-# Capítulo 5 — Configuração e armazenamento
-## Configuração de aplicações
-### ConfigMaps
-### Secrets (e suas limitações de segurança)
-### Variáveis de ambiente vs. volumes montados
-## Armazenamento persistente
-### Volumes efêmeros vs. persistentes
-### PersistentVolume e PersistentVolumeClaim
-### StorageClasses e provisionamento dinâmico
-## StatefulSets na prática
-### Rodando um banco de dados (ex.: PostgreSQL) no cluster
-### Headless services e identidade estável
+[**Capítulo 5 — Configuração e armazenamento**](arquivo.md)
+- [Configuração de aplicações](arquivo.md)
+    - [ConfigMaps](arquivo.md)
+    - [Secrets (e suas limitações de segurança)](arquivo.md)
+    - [Variáveis de ambiente vs. volumes montados](arquivo.md)
+- [Armazenamento persistente](arquivo.md)
+    - [Volumes efêmeros vs. persistentes](arquivo.md)
+    - [PersistentVolume e PersistentVolumeClaim](arquivo.md)
+    - [StorageClasses e provisionamento dinâmico](arquivo.md)
+- [StatefulSets na prática](arquivo.md)
+    - [Rodando um banco de dados (ex.: PostgreSQL) no cluster](arquivo.md)
+    - [Headless services e identidade estável](arquivo.md)
 
-# Capítulo 6 — Montando um cluster multi-nó (3+ nós)
-## Planejamento do cluster
-### Topologia: 1 control plane + 2 workers vs. HA com 3 control planes
-### Requisitos de rede, hostname, swap e firewall
-### Escolha do runtime (containerd) e do CNI
-## Bootstrap com kubeadm (laboratório principal)
-### Preparação dos nós (kernel modules, sysctl, containerd)
-### kubeadm init no control plane
-### Instalando o plugin de rede (CNI)
-### kubeadm join dos workers
-### Validando o cluster com workloads de teste
-## Alternativas de instalação
-### k3s multi-nó
-### Kubespray (visão geral)
-### Clusters gerenciados: EKS, GKE, AKS (comparativo)
-## Operações essenciais do cluster
-### Cordon, drain e manutenção de nós
-### Upgrade de versão com kubeadm
-### Backup e restore do etcd
-### Adicionando e removendo nós
+[**Capítulo 6 — Montando um cluster multi-nó (3+ nós)**](arquivo.md)
+- [Planejamento do cluster](arquivo.md)
+    - [Topologia: 1 control plane + 2 workers vs. HA com 3 control planes](arquivo.md)
+    - [Requisitos de rede, hostname, swap e firewall](arquivo.md)
+    - [Escolha do runtime (containerd) e do CNI](arquivo.md)
+- [Bootstrap com kubeadm (laboratório principal)](arquivo.md)
+    - [Preparação dos nós (kernel modules, sysctl, containerd)](arquivo.md)
+    - [kubeadm init no control plane](arquivo.md)
+    - [Instalando o plugin de rede (CNI)](arquivo.md)
+    - [kubeadm join dos workers](arquivo.md)
+    - [Validando o cluster com workloads de teste](arquivo.md)
+- [Alternativas de instalação](arquivo.md)
+    - [k3s multi-nó](arquivo.md)
+    - [Kubespray (visão geral)](arquivo.md)
+    - [Clusters gerenciados: EKS, GKE, AKS (comparativo)](arquivo.md)
+- [Operações essenciais do cluster](arquivo.md)
+    - [Cordon, drain e manutenção de nós](arquivo.md)
+    - [Upgrade de versão com kubeadm](arquivo.md)
+    - [Backup e restore do etcd](arquivo.md)
+    - [Adicionando e removendo nós](arquivo.md)
 
-# Capítulo 7 — Scheduling, escalabilidade e resiliência
-## Controle de alocação
-### Requests e limits de recursos
-### Taints, tolerations e nodeSelector
-### Affinity e anti-affinity
-## Escalabilidade
-### Horizontal Pod Autoscaler (HPA)
-### Vertical Pod Autoscaler (visão geral)
-### Cluster Autoscaler (conceito)
-## Resiliência
-### PodDisruptionBudgets
-### Estratégias de deploy: rolling, blue-green, canary
+[**Capítulo 7 — Scheduling, escalabilidade e resiliência**](arquivo.md)
+- [Controle de alocação](arquivo.md)
+    - [Requests e limits de recursos](arquivo.md)
+    - [Taints, tolerations e nodeSelector](arquivo.md)
+    - [Affinity e anti-affinity](arquivo.md)
+- [Escalabilidade](arquivo.md)
+    - [Horizontal Pod Autoscaler (HPA)](arquivo.md)
+    - [Vertical Pod Autoscaler (visão geral)](arquivo.md)
+    - [Cluster Autoscaler (conceito)](arquivo.md)
+- [Resiliência](arquivo.md)
+    - [PodDisruptionBudgets](arquivo.md)
+    - [Estratégias de deploy: rolling, blue-green, canary](arquivo.md)
 
-# Capítulo 8 — Segurança
-## Autenticação e autorização
-### ServiceAccounts
-### RBAC: Roles, ClusterRoles e bindings
-## Segurança de workloads
-### SecurityContext e Pod Security Standards
-### NetworkPolicies (isolamento de tráfego)
-## Boas práticas
-### Gestão de secrets (Sealed Secrets, external secrets — visão geral)
-### Scan de imagens e supply chain
+[**Capítulo 8 — Segurança**](arquivo.md)
+- [Autenticação e autorização](arquivo.md)
+    - [ServiceAccounts](arquivo.md)
+    - [RBAC: Roles, ClusterRoles e bindings](arquivo.md)
+- [Segurança de workloads](arquivo.md)
+    - [SecurityContext e Pod Security Standards](arquivo.md)
+    - [NetworkPolicies (isolamento de tráfego)](arquivo.md)
+- [Boas práticas](arquivo.md)
+    - [Gestão de secrets (Sealed Secrets, external secrets — visão geral)](arquivo.md)
+    - [Scan de imagens e supply chain](arquivo.md)
 
-# Capítulo 9 — Observabilidade e troubleshooting
-## Logs e métricas
-### kubectl logs e metrics-server
-### Stack Prometheus + Grafana (instalação básica)
-## Troubleshooting sistemático
-### Diagnóstico de Pods (CrashLoopBackOff, ImagePullBackOff, OOMKilled)
-### Diagnóstico de rede e DNS
-### Diagnóstico de nós e do control plane
-## Eventos e auditoria
-### kubectl events e ferramentas auxiliares (k9s, stern)
+[**Capítulo 9 — Observabilidade e troubleshooting**](arquivo.md)
+- [Logs e métricas](arquivo.md)
+    - [kubectl logs e metrics-server](arquivo.md)
+    - [Stack Prometheus + Grafana (instalação básica)](arquivo.md)
+- [Troubleshooting sistemático](arquivo.md)
+    - [Diagnóstico de Pods (CrashLoopBackOff, ImagePullBackOff, OOMKilled)](arquivo.md)
+    - [Diagnóstico de rede e DNS](arquivo.md)
+    - [Diagnóstico de nós e do control plane](arquivo.md)
+- [Eventos e auditoria](arquivo.md)
+    - [kubectl events e ferramentas auxiliares (k9s, stern)](arquivo.md)
 
-# Capítulo 10 — Estendendo o Kubernetes: CRDs e Operators
-## Extensibilidade da API
-### Custom Resource Definitions (CRDs)
-### Criando e consultando um Custom Resource com kubectl
-### Validação de schema (OpenAPI) e versionamento de CRDs
-## O padrão Operator
-### O que é um Operator: CRD + controller + conhecimento operacional
-### O loop de reconciliação aplicado a recursos customizados
-### Capability levels: de instalação básica a auto-pilot
-## Usando Operators prontos (laboratório)
-### OperatorHub e formas de instalação
-### Exemplos práticos: cert-manager, Prometheus Operator
-### Operators de banco de dados (ex.: CloudNativePG para PostgreSQL)
-### Ciclo de vida: instalação, upgrade e remoção segura
-## Construindo seu próprio Operator (visão geral)
-### Kubebuilder e Operator SDK
-### Anatomia de um controller: watch, reconcile, status
-### Quando criar um Operator vs. usar Helm/scripts
+[**Capítulo 10 — Estendendo o Kubernetes: CRDs e Operators**](arquivo.md)
+- [Extensibilidade da API](arquivo.md)
+    - [Custom Resource Definitions (CRDs)](arquivo.md)
+    - [Criando e consultando um Custom Resource com kubectl](arquivo.md)
+    - [Validação de schema (OpenAPI) e versionamento de CRDs](arquivo.md)
+- [O padrão Operator](arquivo.md)
+    - [O que é um Operator: CRD + controller + conhecimento operacional](arquivo.md)
+    - [O loop de reconciliação aplicado a recursos customizados](arquivo.md)
+    - [Capability levels: de instalação básica a auto-pilot](arquivo.md)
+- [Usando Operators prontos (laboratório)](arquivo.md)
+    - [OperatorHub e formas de instalação](arquivo.md)
+    - [Exemplos práticos: cert-manager, Prometheus Operator](arquivo.md)
+    - [Operators de banco de dados (ex.: CloudNativePG para PostgreSQL)](arquivo.md)
+    - [Ciclo de vida: instalação, upgrade e remoção segura](arquivo.md)
+- [Construindo seu próprio Operator (visão geral)](arquivo.md)
+    - [Kubebuilder e Operator SDK](arquivo.md)
+    - [Anatomia de um controller: watch, reconcile, status](arquivo.md)
+    - [Quando criar um Operator vs. usar Helm/scripts](arquivo.md)
 
-# Capítulo 11 — Ecossistema e projeto final
-## Empacotamento e entrega
-### Helm: charts, values e releases
-### Kustomize: overlays por ambiente
-## Introdução a GitOps
-### Conceito e fluxo com ArgoCD ou Flux (visão geral)
-## Projeto final (capstone)
-### Provisionar um cluster de 3+ nós com kubeadm
-### Fazer deploy de uma aplicação completa (frontend + API + banco via Operator)
-### Expor via Ingress com TLS, configurar HPA e NetworkPolicies
-### Simular falha de um nó e demonstrar a recuperação
-## Próximos passos
-### Certificações: KCNA, CKA, CKAD
-### Tópicos avançados: service mesh, multi-cluster, admission webhooks
+[**Capítulo 11 — Ecossistema e projeto final**](arquivo.md)
+- [Empacotamento e entrega](arquivo.md)
+    - [Helm: charts, values e releases](arquivo.md)
+    - [Kustomize: overlays por ambiente](arquivo.md)
+- [Introdução a GitOps](arquivo.md)
+    - [Conceito e fluxo com ArgoCD ou Flux (visão geral)](arquivo.md)
+- [Projeto final (capstone)](arquivo.md)
+    - [Provisionar um cluster de 3+ nós com kubeadm](arquivo.md)
+    - [Fazer deploy de uma aplicação completa (frontend + API + banco via Operator)](arquivo.md)
+    - [Expor via Ingress com TLS, configurar HPA e NetworkPolicies](arquivo.md)
+    - [Simular falha de um nó e demonstrar a recuperação](arquivo.md)
+- [Próximos passos](arquivo.md)
+    - [Certificações: KCNA, CKA, CKAD](arquivo.md)
+    - [Tópicos avançados: service mesh, multi-cluster, admission webhooks](arquivo.md)

@@ -111,7 +111,7 @@ Graças ao OCI, uma imagem construída com qualquer ferramenta (Docker, Buildah,
 
 ```
 ┌─────────────────────────────────────────────┐
-│  Ferramenta do usuário (docker CLI, nerdctl)│  ← experiência do desenvolvedor
+│  Ferramenta do usuário (podman CLI, nerdctl)│  ← experiência do desenvolvedor
 ├─────────────────────────────────────────────┤
 │  Runtime de alto nível (containerd, CRI-O)  │  ← gerencia imagens, storage, ciclo de vida
 ├─────────────────────────────────────────────┤
@@ -171,23 +171,23 @@ Dois detalhes desse ciclo são fundamentais para entender o Kubernetes depois:
 
 ```bash
 # 1. Rode um container e observe seu ciclo de vida
-docker run --name teste -d nginx:1.27
-docker ps                          # estado Running
-docker inspect teste --format '{{.State.Status}}'
+podman run --name teste -d nginx:1.27
+podman ps                          # estado Running
+podman inspect teste --format '{{.State.Status}}'
 
 # 2. Explore as camadas da imagem
-docker history nginx:1.27
+podman history nginx:1.27
 
 # 3. Prove que a camada de escrita é efêmera
-docker exec teste sh -c 'echo oi > /tmp/arquivo && cat /tmp/arquivo'
-docker rm -f teste
-docker run --name teste -d nginx:1.27
-docker exec teste cat /tmp/arquivo   # o arquivo não existe mais
+podman exec teste sh -c 'echo oi > /tmp/arquivo && cat /tmp/arquivo'
+podman rm -f teste
+podman run --name teste -d nginx:1.27
+podman exec teste cat /tmp/arquivo   # o arquivo não existe mais
 
 # 4. Observe o encerramento gracioso
-docker stop teste                    # envia SIGTERM, depois SIGKILL
-docker inspect teste --format '{{.State.ExitCode}}'
-docker rm teste
+podman stop teste                    # envia SIGTERM, depois SIGKILL
+podman inspect teste --format '{{.State.ExitCode}}'
+podman rm teste
 ```
 
 ---
